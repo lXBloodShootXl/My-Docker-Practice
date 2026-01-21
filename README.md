@@ -1,0 +1,1 @@
+Práctica de Docker sobre construcción de imágenes, configuración de red puente, manejo de docker compose y otros.
