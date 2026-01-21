@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:latest          # Imagen oficial de PostgreSQL
+    container_name: dbtarea-nodockerfile
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: tareadb
+    ports:
+      - "5439:5432"
+    networks:
+      - redtarea
+    volumes:
+      - volumentarea:/var/lib/postgresql/18/main
+
+  web:
+    image: nginx:latest         # Imagen oficial de Nginx
+    container_name: webtarea-nodockerfile
+    ports:
+      - "8096:80"
+    networks:
+      - redtarea
+    volumes:
+      - ../nginx/index.html:/usr/share/nginx/html/index.html:ro
+      - volumentarea:/usr/share/nginx/html:rw
+    depends_on:
+      - db
+
+volumes:
+  volumentarea:
+    external: true
+
+networks:
+  redtarea:
+    external: true

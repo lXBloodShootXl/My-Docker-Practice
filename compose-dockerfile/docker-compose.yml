@@ -1,0 +1,36 @@
+services:
+  db:
+    build:
+      context: ../postgres       # Carpeta donde está el Dockerfile de PostgreSQL
+    container_name: dbtarea-yml
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: tareadb
+    ports:
+      - "5436:5432"
+    networks:
+      - redtarea
+    volumes:
+      - volumentarea:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: ../nginx    # Carpeta donde está el Dockerfile de Nginx
+    container_name: webtarea-yml
+    ports:
+      - "8099:80"
+    networks:
+      - redtarea
+    volumes:
+      - volumentarea:/usr/share/nginx/html
+    depends_on:
+      - db
+
+volumes:
+  volumentarea:
+    external: true
+
+networks:
+  redtarea:
+    external: true
